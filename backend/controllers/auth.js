@@ -1,8 +1,7 @@
 const User = require("../models/user");
 const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");  
-
+const expressJwt = require("express-jwt");
 
 exports.signup = async (req, res) => {
   // console.log(req.body);
@@ -54,10 +53,21 @@ exports.signin = async (req, res) => {
       token,
       user: { _id, username, name, email, role },
     });
-    
   } else {
     return res.status(400).json({
       error: "User with that email does not exist. Please signup.",
     });
   }
 };
+
+exports.signout = (req, res) => {
+  res.clearCookie("token");
+  res.json({
+    message: "Signout success",
+  });
+};
+
+exports.requireSignin = expressJwt.expressjwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+});
