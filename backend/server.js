@@ -21,9 +21,14 @@ const app = express();
 //   .then(() => console.log("DB Connected"));
 
 // database connection using local database
-mongoose.connect(process.env.DATABASE_LOCAL, {}).then(() => {
-  console.log("DB Connected");
-});
+mongoose
+  .connect(process.env.DATABASE_LOCAL, {})
+  .then(() => {
+    console.log("DB Connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 // middlewares
 app.use(moragn("dev"));
