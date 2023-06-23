@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    salt: Number,
+    salt: String,
     about: {
       type: String,
     },
@@ -46,43 +46,43 @@ const userSchema = new mongoose.Schema(
       contentType: String,
     },
     resetPasswordLink: {
-      data: String,
-      default: "",
+      data: {
+        type: String,
+        default: null,
+      },
     },
   },
-  { timestamps: true }
+  { timestamp: true }
 );
 
 userSchema
   .virtual("password")
   .set(function (password) {
-    // create a temporary variable called _password
+    // create a temporarity variable called _password
     this._password = password;
     // generate salt
     this.salt = this.makeSalt();
-    // encrypt password
+    // encryptPassword
     this.hashed_password = this.encryptPassword(password);
   })
   .get(function () {
     return this._password;
   });
 
-// methods
 userSchema.methods = {
-  // compare password
   authenticate: function (plainText) {
     return this.encryptPassword(plainText) === this.hashed_password;
   },
 
   encryptPassword: function (password) {
-    if (!password) return "";
+    if (!password) return null;
     try {
       return crypto
         .createHmac("sha1", this.salt)
         .update(password)
         .digest("hex");
     } catch (err) {
-      return "";
+      return null;
     }
   },
 
