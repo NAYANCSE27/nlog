@@ -32,12 +32,12 @@ const Header = () => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <Link href="/Signin">
+              <Link href="/signin">
                 <NavLink>Signin</NavLink>
               </Link>
             </NavItem>
             <NavItem>
-              <Link href="/Signup">
+              <Link href="/signup">
                 <NavLink>Signup</NavLink>
               </Link>
             </NavItem>
