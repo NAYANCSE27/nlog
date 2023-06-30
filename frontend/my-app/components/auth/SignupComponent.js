@@ -43,7 +43,12 @@ const SignupComponent = () => {
     setValues({ ...values, error: false, [name]: e.target.value });
   };
 
-  
+  const showLoading = () =>
+    loading ? <div className="alert alert-info">Loading...</div> : "";
+  const showError = () =>
+    error ? <div className="alert alert-danger">{error}</div> : "";
+  const showMessage = () =>
+    message ? <div className="alert alert-info">{message}</div> : "";
 
   const signupForm = () => {
     return (
@@ -80,7 +85,14 @@ const SignupComponent = () => {
     );
   };
 
-  return <>{signupForm()}</>;
+  return (
+    <>
+      {showError()}
+      {showLoading()}
+      {showMessage()}
+      {signupForm()}
+    </>
+  );
 };
 
 export default SignupComponent;
