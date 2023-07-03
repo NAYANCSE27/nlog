@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signin } from "../../actions/auth";
+import { authenticate, signin } from "../../actions/auth";
 import Router from "next/router";
 
 const SigninComponent = () => {
@@ -26,7 +26,9 @@ const SigninComponent = () => {
       } else {
         // console.log(data);
         // redirect user to home page
-        Router.push("/");
+        authenticate(data, () => {
+          Router.push("/");
+        });
       }
     });
   };
