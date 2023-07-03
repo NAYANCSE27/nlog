@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { isAuth, signup } from "../../actions/auth";
 import Router from "next/router";
