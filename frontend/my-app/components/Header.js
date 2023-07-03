@@ -14,6 +14,8 @@ import {
   DropdownItem,
 } from "reactstrap";
 import Link from "next/link";
+import { isAuth, signout } from "../actions/auth";
+import Router from "next/router";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,16 +33,33 @@ const Header = () => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem>
-              <Link href="/signin">
-                <NavLink>Signin</NavLink>
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link href="/signup">
-                <NavLink>Signup</NavLink>
-              </Link>
-            </NavItem>
+            {!isAuth() && (
+              <>
+                <NavItem>
+                  <Link href="/signin">
+                    <NavLink>Signin</NavLink>
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link href="/signup">
+                    <NavLink>Signup</NavLink>
+                  </Link>
+                </NavItem>
+              </>
+            )}
+            
+            {isAuth() && (
+              <NavItem>
+                {/* <Link href="/signin"> */}
+                <NavLink
+                  style={{ cursor: "pointer" }}
+                  onClick={() => signout(() => Router.replace(`/signin`))}
+                >
+                  Signout
+                </NavLink>
+                {/* </Link> */}
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>

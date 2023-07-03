@@ -33,6 +33,20 @@ export const signin = (user) => {
     .catch((err) => console.log(err));
 };
 
+export const signout = (next) => {
+  removeCookie("token");
+  removeLocalStorage("user");
+  next();
+
+  return fetch(`${API}/signout`, {
+    method: "GET",
+  })
+    .then((response) => {
+      console.log("signout success");
+    })
+    .catch((err) => console.log(err));
+};
+
 // set cookie
 export const setCookie = (key, value) => {
   if (process.browser) {
@@ -53,7 +67,7 @@ export const removeCookie = (key) => {
 // get cookie
 export const getCookie = (key) => {
   if (process.browser) {
-    Cookies.get(key);
+    return Cookies.get(key);
   }
 };
 
@@ -66,7 +80,7 @@ export const setLocalStorage = (key, value) => {
 
 export const removeLocalStorage = (key) => {
   if (process.browser) {
-    localStorage.setItem(key);
+    localStorage.removeItem(key);
   }
 };
 
